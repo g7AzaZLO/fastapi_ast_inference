@@ -11,18 +11,18 @@ from setuptools import setup
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-version = "0.1.0"
+version = "0.1.1"
 
 setup(
-    name="fastapi-ast-inference",
+    name="fastapi_ast_inference",
     version=version,
     author="g7AzaZLO",
     author_email="maloymeee@yandex.ru",
     description="Automatic response model inference for FastAPI using AST analysis.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/g7AzaZLO/fastapi-ast-inference",
-    download_url=f"https://github.com/g7AzaZLO/fastapi-ast-inference/archive/refs/tags/v{version}.zip".format(version),
+    url="https://github.com/g7AzaZLO/fastapi_ast_inference",
+    download_url=f"https://github.com/g7AzaZLO/fastapi_ast_inference/archive/refs/tags/v{version}.zip".format(version),
     license="MIT",
     packages=["fastapi_ast_inference"],
     install_requires=[
