@@ -72,3 +72,6 @@ __all__ = [
     "create_inferred_router",
 ]
 
+__author__ = "g7AzaZLO"
+__author_email__ = "maloymeee@yandex.ru"
+__license__ = "MIT"
