@@ -20,22 +20,25 @@ from pydantic import BaseModel
 from typing import List
 
 # You must define a separate model class for every response structure
+class CustomerInfo(BaseModel):
+    name: str
+    vip_status: bool
+    preferences: Dict[str, Union[bool, str]]
+
 class Item(BaseModel):
     item_id: int
     name: str
     price: float
     in_stock: bool
 
-class CustomerInfo(BaseModel):
-    name: str
-    vip_status: bool
-
 class OrderResponse(BaseModel):
     order_id: str
     status: str
     total_amount: float
-    items: List[Item]
+    tags: List[str]
     customer_info: CustomerInfo
+    items: List[Item]
+    metadata: Optional[Dict[str, Any]] = None
 
 app = FastAPI()
 
@@ -45,8 +48,21 @@ async def get_order(order_id: str):
         "order_id": order_id,
         "status": "processing",
         "total_amount": 150.50,
-        "items": [{"item_id": 1, "name": "Laptop", "price": 45.0, "in_stock": True}],
-        "customer_info": {"name": "John", "vip_status": False}
+        "tags": ["urgent", "new_customer"],
+        "customer_info": {
+            "name": "John Doe",
+            "vip_status": False,
+            "preferences": {"notifications": True, "theme": "dark"},
+        },
+        "items": [
+            {
+                "item_id": 1,
+                "name": "Laptop Stand",
+                "price": 45.00,
+                "in_stock": True,
+            },
+        ],
+        "metadata": None,
     }
 ```
 
@@ -66,12 +82,27 @@ async def get_order(order_id: str):
         "order_id": order_id,
         "status": "processing",
         "total_amount": 150.50,
-        "items": [{"item_id": 1, "name": "Laptop", "price": 45.0, "in_stock": True}],
-        "customer_info": {"name": "John", "vip_status": False}
+        "tags": ["urgent", "new_customer"],
+        "customer_info": {
+            "name": "John Doe",
+            "vip_status": False,
+            "preferences": {"notifications": True, "theme": "dark"},
+        },
+        "items": [
+            {
+                "item_id": 1,
+                "name": "Laptop Stand",
+                "price": 45.00,
+                "in_stock": True,
+            },
+        ],
+        "metadata": None,
     }
 ```
 
 **Result:** Full OpenAPI schema with typed fields, zero boilerplate!
+
+<img width="882" height="557" alt="image" src="https://github.com/user-attachments/assets/e52d44e9-6ff8-418f-948e-27eb5d979c5d" />
 
 ## Installation
 
