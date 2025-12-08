@@ -107,7 +107,7 @@ async def get_order(order_id: str):
 ## Installation
 
 ```bash
-pip install fastapi-ast-inference
+pip install fastapi_ast_inference
 ```
 
 ## Usage
