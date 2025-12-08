@@ -18,22 +18,25 @@ from pydantic import BaseModel
 from typing import List
 
 # Нужно определять отдельный класс модели для каждой структуры ответа
+class CustomerInfo(BaseModel):
+    name: str
+    vip_status: bool
+    preferences: Dict[str, Union[bool, str]]
+
 class Item(BaseModel):
     item_id: int
     name: str
     price: float
     in_stock: bool
 
-class CustomerInfo(BaseModel):
-    name: str
-    vip_status: bool
-
 class OrderResponse(BaseModel):
     order_id: str
     status: str
     total_amount: float
-    items: List[Item]
+    tags: List[str]
     customer_info: CustomerInfo
+    items: List[Item]
+    metadata: Optional[Dict[str, Any]] = None
 
 app = FastAPI()
 
@@ -43,8 +46,21 @@ async def get_order(order_id: str):
         "order_id": order_id,
         "status": "processing",
         "total_amount": 150.50,
-        "items": [{"item_id": 1, "name": "Laptop", "price": 45.0, "in_stock": True}],
-        "customer_info": {"name": "John", "vip_status": False}
+        "tags": ["urgent", "new_customer"],
+        "customer_info": {
+            "name": "John Doe",
+            "vip_status": False,
+            "preferences": {"notifications": True, "theme": "dark"},
+        },
+        "items": [
+            {
+                "item_id": 1,
+                "name": "Laptop Stand",
+                "price": 45.00,
+                "in_stock": True,
+            },
+        ],
+        "metadata": None,
     }
 ```
 
@@ -64,12 +80,28 @@ async def get_order(order_id: str):
         "order_id": order_id,
         "status": "processing",
         "total_amount": 150.50,
-        "items": [{"item_id": 1, "name": "Laptop", "price": 45.0, "in_stock": True}],
-        "customer_info": {"name": "John", "vip_status": False}
+        "tags": ["urgent", "new_customer"],
+        "customer_info": {
+            "name": "John Doe",
+            "vip_status": False,
+            "preferences": {"notifications": True, "theme": "dark"},
+        },
+        "items": [
+            {
+                "item_id": 1,
+                "name": "Laptop Stand",
+                "price": 45.00,
+                "in_stock": True,
+            },
+        ],
+        "metadata": None,
     }
 ```
 
 **Результат:** Полная OpenAPI-схема с типизированными полями, ноль шаблонного кода!
+
+<img width="882" height="557" alt="image" src="https://github.com/user-attachments/assets/679ce882-13b3-4b53-b1fe-cdea6c5ed3db" />
+
 
 ## Установка
 
